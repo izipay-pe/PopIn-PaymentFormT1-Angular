@@ -152,66 +152,68 @@ Esta página explica cómo crear un formulario de pago dinámico desde cero util
     }
     ```
 
-* ## 2.1.- El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
+* ## 2.1.- Validando el pago (Opcional)
 
-    En el lado del servidor:
+    * El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
 
-      ```js
-      const express = require('express')
-      const hmacSHA256 = require('crypto-js/hmac-sha256')
-      const Hex = require('crypto-js/enc-hex')
-      const app = express()
-      (...)
-      // válida los datos de pago dados (hash)
-      app.post('/validatePayment', (req, res) => {
-        const answer = req.body.clientAnswer
-        const hash = req.body.hash
-        const answerHash = Hex.stringify(
-          hmacSHA256(JSON.stringify(answer), 'CHANGE_ME: HMAC SHA256 KEY')
-        )
-        if (hash === answerHash) res.status(200).send('Valid payment')
-        else res.status(500).send('Payment hash mismatch')
-      })
-      (...)
-      ```
+    * En el lado del servidor:
 
-    Del lado del cliente:
-
-      ```js
-      import { Component, OnInit } from "@angular/core";
-      import KRGlue from "@lyracom/embedded-form-glue";
-      import axios from 'axios'
-      @Component({
-        selector: "app-root",
-        templateUrl: "./app.component.html",
-        styleUrls: ["./app.component.css"]
-      })
-      export class AppComponent implements OnInit {
-        title: string = "Ejemplo de un formulario popin en ANGULAR";
-        (...),
-          ngOnInit() {
-            /* use su endpoint y la clave public_key */
-            const endpoint = '~~CHANGE_ME_ENDPOINT~~'
-            const publicKey = '~~CHANGE_ME_PUBLIC_KEY~~'
-            const formToken = 'DEMO-TOKEN-TO-BE-REPLACED'
-            KRGlue.loadLibrary(endpoint, publicKey) /* cargar la libreria KRGlue */
-              .then(({KR}) => KR.setFormConfig({  /* establecer la configuración mínima */
-                formToken: formToken,
-                'kr-language': 'en-US',
-              })) /* para actualizar el parámetro de inicialización */
-              .then(({KR}) => KR.onSubmit(resp => {
-                axios
-                  .post('http://localhost:3000/validatePayment', paymentData)
-                  .then(response => {
-                    if (response.status === 200) this.message = 'Payment successful!'
-                  })
-                return false
-              }))
-              .then(({KR}) => KR.addForm('#myPaymentForm')) /* crear un formulario de pago */
-              .then(({KR, result}) => KR.showForm(result.formId));  /* muestra el formulario de pago */
-          }
+        ```js
+          const express = require('express')
+          const hmacSHA256 = require('crypto-js/hmac-sha256')
+          const Hex = require('crypto-js/enc-hex')
+          const app = express()
           (...)
-      }
+          // válida los datos de pago dados (hash)
+          app.post('/validatePayment', (req, res) => {
+            const answer = req.body.clientAnswer
+            const hash = req.body.hash
+            const answerHash = Hex.stringify(
+              hmacSHA256(JSON.stringify(answer), 'CHANGE_ME: HMAC SHA256 KEY')
+            )
+            if (hash === answerHash) res.status(200).send('Valid payment')
+            else res.status(500).send('Payment hash mismatch')
+          })
+          (...)
+        ```
+
+    * Del lado del cliente:
+
+      ```js
+        import { Component, OnInit } from "@angular/core";
+        import KRGlue from "@lyracom/embedded-form-glue";
+        import axios from 'axios'
+        @Component({
+          selector: "app-root",
+          templateUrl: "./app.component.html",
+          styleUrls: ["./app.component.css"]
+        })
+        export class AppComponent implements OnInit {
+          title: string = "Ejemplo de un formulario popin en ANGULAR";
+          (...),
+            ngOnInit() {
+              /* use su endpoint y la clave public_key */
+              const endpoint = '~~CHANGE_ME_ENDPOINT~~'
+              const publicKey = '~~CHANGE_ME_PUBLIC_KEY~~'
+              const formToken = 'DEMO-TOKEN-TO-BE-REPLACED'
+              KRGlue.loadLibrary(endpoint, publicKey) /* cargar la libreria KRGlue */
+                .then(({KR}) => KR.setFormConfig({  /* establecer la configuración mínima */
+                  formToken: formToken,
+                  'kr-language': 'en-US',
+                })) /* para actualizar el parámetro de inicialización */
+                .then(({KR}) => KR.onSubmit(resp => {
+                  axios
+                    .post('http://localhost:3000/validatePayment', paymentData)
+                    .then(response => {
+                      if (response.status === 200) this.message = 'Payment successful!'
+                    })
+                  return false
+                }))
+                .then(({KR}) => KR.addForm('#myPaymentForm')) /* crear un formulario de pago */
+                .then(({KR, result}) => KR.showForm(result.formId));  /* muestra el formulario de pago */
+            }
+            (...)
+        }
       ```
 
 
