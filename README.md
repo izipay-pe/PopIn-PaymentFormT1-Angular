@@ -152,7 +152,7 @@ export class AppComponent implements AfterViewInit{
 }
 ```
 
-  ## 2.1.- El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
+* ## 2.1.- El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
 
     En el lado del servidor:
 
