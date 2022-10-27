@@ -3,7 +3,7 @@
 Esta página explica cómo crear un formulario de pago dinámico desde cero utilizando Angular y angular-cli y la biblioteca de embedded-form-glue.
 
 <p align="center">
-  <img src="/image/imagenes-readme/imagen-popin.png?raw=true" alt="Formulario"/>
+  <img src="/src/assets/imagen-popin.png?raw=true" alt="Formulario"/>
 </p> 
 
 <a name="Requisitos_Previos"></a>
@@ -152,7 +152,7 @@ export class AppComponent implements AfterViewInit{
 }
 ```
 
-    2.1.- El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
+  * 2.1.- El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
 
     En el lado del servidor:
 
