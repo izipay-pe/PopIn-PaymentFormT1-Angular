@@ -154,7 +154,7 @@ Esta página explica cómo crear un formulario de pago dinámico desde cero util
 
 * ## 2.1.- Validando el pago (Opcional)
 
-    * El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
+    El hash de pago debe validarse en el lado del servidor para evitar la exposición de su clave hash personal.
 
     * En el lado del servidor:
 
