@@ -85,7 +85,7 @@ Esta página explica cómo crear un formulario de pago dinámico desde cero util
       display: flex;
       justify-content: center;
     }
-  ```
+    ```
   
   * Edite el componente predeterminado src/app/app.component.ts, con el siguiente codigo si quiere interactuar con el formulario de pago, con un endpoint propio.
 
